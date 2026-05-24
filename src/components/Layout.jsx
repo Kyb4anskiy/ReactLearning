@@ -1,14 +1,17 @@
 import { Outlet } from "react-router-dom";
-import { Menu } from "./Menu";
+import { Header } from "./Header";
+import { Footer } from "./Footer";
 
 export const Layout = () => {
   return (
-    <div>
+    <div style={{ margin: 0 }}>
       <header>
-        <Menu />
+        <Header />
       </header>
       <Outlet />
-      <footer>Проект</footer>
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 };

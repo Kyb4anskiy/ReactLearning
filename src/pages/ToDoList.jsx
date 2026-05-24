@@ -118,7 +118,7 @@ const ToDoList = () => {
   if (isLoading) return <p>Идет загрузка данных</p>;
 
   return (
-    <div>
+    <div style={{ padding: 16 }}>
       <div>
         <div
           style={{

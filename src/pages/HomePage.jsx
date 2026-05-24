@@ -1,5 +1,56 @@
-import { Menu } from "../components/Menu";
+import { useEffect, useState } from "react";
+import { Header } from "../components/Header";
+import { FilmCard } from "../components/FilmCard";
 
 export const HomePage = () => {
-  return <div></div>;
+  const [filmsList, setFilmsList] = useState([]);
+
+  useEffect(() => {
+    handleGetFilmsList();
+  }, []);
+
+  const handleGetFilmsList = async () => {
+    try {
+      const response = await fetch("https://e68a5f89ae16826a.mokky.dev/films");
+      if (!response.ok) throw new Error("Ошибка подключения к удаленной БД");
+      const data = await response.json();
+      if (data.items) setFilmsList(data.items);
+      else if (Array.isArray(data)) setFilmsList(data);
+      else setFilmsList([]);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  return (
+    <div
+      style={{
+        paddingBlock: 8,
+        backgroundColor: "#FFFFFF",
+      }}
+    >
+      <div
+        style={{
+          marginInline: 16,
+          padding: 12,
+          backgroundColor: "#e3e3e3",
+          borderRadius: 12,
+        }}
+      >
+        <h3 style={{ margin: 0 }}>Список фильмов</h3>
+        <div
+          style={{
+            display: "grid",
+            marginTop: 12,
+            gridTemplateColumns: "1fr 1fr 1fr",
+            gap: 12,
+          }}
+        >
+          {filmsList.map((obj) => (
+            <FilmCard key={obj.id} film={obj} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 };
