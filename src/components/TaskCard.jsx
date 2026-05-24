@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
-const TaskCard = ({ obj, onDelete, onChangeComplite }) => {
+const TaskCard = ({ obj, onDelete, onChangeTask }) => {
   const [editValue, setEditValue] = useState(obj.name);
+  const [editStatus, setEditStatus] = useState(obj.compliteStatus);
   const [isEditing, setIsEditing] = useState(false);
 
   return (
@@ -9,7 +10,8 @@ const TaskCard = ({ obj, onDelete, onChangeComplite }) => {
       style={{
         display: "flex",
         border: "solid",
-        width: 600,
+        alignItems: "center",
+        width: 400,
         margin: 5,
         marginLeft: 0,
         color: "green",
@@ -17,40 +19,65 @@ const TaskCard = ({ obj, onDelete, onChangeComplite }) => {
     >
       <input
         type="checkbox"
-        checked={obj.isComplited}
+        checked={isEditing ? editStatus : obj.compliteStatus}
         onChange={(e) => {
-          onChangeComplite(obj.id, !obj.isComplited);
+          isEditing
+            ? setEditStatus(!editStatus)
+            : onChangeTask(obj.id, obj.name, !obj.compliteStatus);
         }}
       />
       {isEditing ? (
-        <div display="flex">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexGrow: 1,
+            minWidth: 0,
+          }}
+        >
           <input
             type="text"
+            style={{ fontSize: 25, flexGrow: 1, minWidth: 0 }}
             value={editValue}
             onChange={(e) => {
               setEditValue(e.target.value);
             }}
           />
-          <button onClick={() => {}}>Сохранить</button>
-          <button onClick={() => {}}>Отменить</button>
+          <button
+            onClick={async () => {
+              await onChangeTask(obj.id, editValue, editStatus);
+              setIsEditing(false);
+            }}
+          >
+            Сохранить
+          </button>
+          <button onClick={() => setIsEditing(false)}>Отменить</button>
         </div>
       ) : (
-        <div display="flex">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexGrow: 1,
+            minWidth: 0,
+          }}
+        >
           <p
             style={{
-              textDecoration: obj.isComplited ? "line-through" : "none",
-              fontWeight: obj.isComplited ? 400 : 800,
+              textDecoration: obj.compliteStatus ? "line-through" : "none",
+              fontWeight: obj.compliteStatus ? 400 : 800,
               fontSize: 25,
               marginBlockEnd: 5,
               marginBlockStart: 5,
-              color: obj.isComplited ? "grey" : "black",
+              color: obj.compliteStatus ? "grey" : "black",
               marginLeft: 5,
               marginRight: 20,
             }}
           >
             {obj.name}
           </p>
-          <button onClick={() => setIsEditing(!isEditing)}>Изменить</button>
+          <div style={{ flexGrow: 1 }} />
+          <button onClick={() => setIsEditing(true)}>Изменить</button>
           <button onClick={() => onDelete(obj.id)}>Удалить</button>
         </div>
       )}

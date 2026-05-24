@@ -1,10 +1,5 @@
 import { Menu } from "../components/Menu";
 
 export const HomePage = () => {
-  return (
-    <div>
-      <h1>Главная страница</h1>
-      <Menu></Menu>
-    </div>
-  );
+  return <div></div>;
 };

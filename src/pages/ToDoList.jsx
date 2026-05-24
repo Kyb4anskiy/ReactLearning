@@ -27,7 +27,7 @@ const ToDoList = () => {
 
   const lengthList = currentTaskList.length;
   const countComplite = currentTaskList.filter(
-    (obj) => obj.isComplited === true,
+    (obj) => obj.compliteStatus === true,
   ).length;
   const allPages = () => {};
 
@@ -72,7 +72,7 @@ const ToDoList = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             name: inputText,
-            isComplited: false,
+            compliteStatus: false,
           }),
         },
       );
@@ -83,7 +83,7 @@ const ToDoList = () => {
     setInputText("");
   };
 
-  const handleUpdateTask = async (id, statusComplite) => {
+  const handleUpdateTask = async (id, name, compliteStatus) => {
     try {
       const response = await fetch(
         `https://e68a5f89ae16826a.mokky.dev/listTasks/${id}`,
@@ -91,7 +91,8 @@ const ToDoList = () => {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            isComplited: statusComplite,
+            name: name,
+            compliteStatus: compliteStatus,
           }),
         },
       );
@@ -126,6 +127,7 @@ const ToDoList = () => {
         >
           <input
             value={inputText}
+            style={{ fontSize: 25 }}
             onChange={(e) => setInputText(e.target.value)}
           />
           <button onClick={handlerAddTask}>Добавить</button>
@@ -135,7 +137,7 @@ const ToDoList = () => {
             key={obj.id}
             obj={obj}
             onDelete={handleDeleteTask}
-            onChangeComplite={handleUpdateTask}
+            onChangeTask={handleUpdateTask}
           />
         ))}
         <p>
