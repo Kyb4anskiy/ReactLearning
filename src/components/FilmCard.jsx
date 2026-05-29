@@ -1,7 +1,10 @@
+import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const FilmCard = ({ film }) => {
+export const FilmCard = memo(({ film }) => {
   const navigate = useNavigate();
+
+  console.log("render ", film.id);
 
   let ratingColor = "";
 
@@ -45,4 +48,4 @@ export const FilmCard = ({ film }) => {
       <p style={{ color: ratingColor, fontSize: 18 }}>{film.rating}/10</p>
     </div>
   );
-};
+});

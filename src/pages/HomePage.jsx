@@ -1,9 +1,16 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Header } from "../components/Header";
 import { FilmCard } from "../components/FilmCard";
+import { useTheme } from "../contexts/ThemeContext";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export const HomePage = () => {
   const [filmsList, setFilmsList] = useState([]);
+  const [filter, setFilter] = useState("");
+
+  const { theme } = useTheme();
+  const navigate = useNavigate();
 
   useEffect(() => {
     handleGetFilmsList();
@@ -22,6 +29,10 @@ export const HomePage = () => {
     }
   };
 
+  const handleFilter = () => {
+    if (!filter)
+  }
+
   return (
     <div
       style={{
@@ -38,6 +49,13 @@ export const HomePage = () => {
         }}
       >
         <h3 style={{ margin: 0 }}>Список фильмов</h3>
+        <input
+          type="text"
+          value={filter}
+          onChange={(e) => {
+            setFilter(e.target.value);
+          }}
+        />
         <div
           style={{
             display: "grid",

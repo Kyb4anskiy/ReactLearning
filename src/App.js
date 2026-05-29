@@ -4,30 +4,37 @@ import { About } from "./pages/AboutList.jsx";
 import ToDoList from "./pages/ToDoList.jsx";
 import { TaskPage } from "./pages/TaskPage.jsx";
 import { HomePage } from "./pages/HomePage.jsx";
-import { Layout } from "./components/Layout.jsx";
-import { FilmScreen } from "./pages/FilmScreen.jsx";
-
-// GET - получение данных, без тела запроса
-// 1 - все задачи - массив сущностей /tasks
-// 2 - одна задача - один объект /tasks/1 /tasks/:id
-// 3 - query - параметры /tasks?category=джинсы&size=45
-// 4 - пагинация - номер страницы и количество элементов на странице
-
-// POST - передача данных, создание новых данных на сервере
-// PUT/PATCH - изменение существующих данных. PUT - передать все данные. PATCH - передать конкретные данные
-// DELETE - удаление данных
-
-// CRUD - операции
+import { DefaultLayout } from "./Layouts/DefaultLayout.jsx";
+import { FilmScreen } from "./pages/FilmPage.jsx";
+import { AuthForm } from "./components/AuthForm.jsx";
+import { ProfilePage } from "./pages/ProfilePage.jsx";
+import { WishlistPage } from "./pages/WishlistPage.jsx";
+import { AuthLayout } from "./Layouts/AuthLayout.jsx";
+import { GuestLayout } from "./Layouts/GuestLayout.jsx";
+import { RoleLayout } from "./Layouts/RoleLayout.jsx";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
+      <Route path="/" element={<DefaultLayout />}>
         <Route index element={<HomePage />} />
-        <Route path="/tasks" element={<ToDoList />} />
         <Route path="/film/:id" element={<FilmScreen />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/wishlist" element={<WishlistPage />} />
+
+        <Route element={<GuestLayout />}>
+          <Route path="/auth" element={<AuthForm />} />
+        </Route>
+
+        <Route element={<AuthLayout />}>
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/tasks" element={<ToDoList />} />
+
+          <Route element={<RoleLayout />}>
+            <Route path="/about" element={<About />} />
+          </Route>
+        </Route>
       </Route>
+
       <Route path="*" element={<h1>Страница не найдена</h1>} />
     </Routes>
   );
