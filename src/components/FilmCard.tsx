@@ -1,19 +1,25 @@
 import { memo } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const FilmCard = memo(({ film }) => {
+type FilmCardProps = {
+  id: number;
+  name: string;
+  rating: number;
+};
+
+export const FilmCard = memo(({ id, name, rating }: FilmCardProps) => {
   const navigate = useNavigate();
 
-  console.log("render ", film.id);
+  console.log("render ", id);
 
   let ratingColor = "";
 
-  if (film.rating > 8) ratingColor = "green";
-  else if (film.rating > 5) ratingColor = "orange";
+  if (rating > 8) ratingColor = "green";
+  else if (rating > 5) ratingColor = "orange";
   else ratingColor = "red";
 
   const openFilmScreen = () => {
-    navigate(`film/${film.id}`);
+    navigate(`film/${id}`);
   };
 
   return (
@@ -41,11 +47,9 @@ export const FilmCard = memo(({ film }) => {
       >
         <p>Изображение</p>
       </div>
-      <p style={{ marginTop: 12, fontSize: 18, fontWeight: 600 }}>
-        {film.name}
-      </p>
+      <p style={{ marginTop: 12, fontSize: 18, fontWeight: 600 }}>{name}</p>
       <div style={{ marginTop: "auto" }}></div>
-      <p style={{ color: ratingColor, fontSize: 18 }}>{film.rating}/10</p>
+      <p style={{ color: ratingColor, fontSize: 18 }}>{rating}/10</p>
     </div>
   );
 });

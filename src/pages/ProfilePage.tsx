@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useState } from "react";
 
+type UserRole = "user" | "admin";
+
 export const ProfilePage = () => {
   const { user, logout, switchRole } = useAuth();
   const [role, setRole] = useState("user");
@@ -13,7 +15,7 @@ export const ProfilePage = () => {
     navigate("/auth");
   };
 
-  const handleSwitchRole = (role) => {
+  const handleSwitchRole = (role: UserRole) => {
     switchRole(role);
   };
 
@@ -36,13 +38,13 @@ export const ProfilePage = () => {
         }}
       >
         <h3>Профиль</h3>
-        <p>ФИО: {user.fio}</p>
-        <p>Роль: {user.role}</p>
+        <p>ФИО: {user?.fio}</p>
+        <p>Роль: {user?.role}</p>
         <select
-          value={user.role}
+          value={user?.role}
           onChange={(e) => {
             setRole(e.target.value);
-            handleSwitchRole(e.target.value);
+            handleSwitchRole(e.target.value as UserRole);
           }}
           style={{ width: 150 }}
         >

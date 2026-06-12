@@ -6,7 +6,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export const HomePage = () => {
-  const [filmsList, setFilmsList] = useState([]);
+  const [filmsList, setFilmsList] = useState<Film[]>([]);
   const [filter, setFilter] = useState("");
 
   const { theme } = useTheme();
@@ -28,10 +28,6 @@ export const HomePage = () => {
       console.log(e);
     }
   };
-
-  const handleFilter = () => {
-    if (!filter)
-  }
 
   return (
     <div
@@ -65,7 +61,12 @@ export const HomePage = () => {
           }}
         >
           {filmsList.map((obj) => (
-            <FilmCard key={obj.id} film={obj} />
+            <FilmCard
+              key={obj.id}
+              id={obj.id}
+              name={obj.name}
+              rating={obj.rating}
+            />
           ))}
         </div>
       </div>

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export const AuthForm = () => {
   const [fio, setFio] = useState("");
-  const [role, setRole] = useState("user");
+  const [role, setRole] = useState<UserRole>("user");
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -15,13 +15,14 @@ export const AuthForm = () => {
       );
       if (!response.ok) throw new Error("Ошибка подключения");
       const data = await response.json();
+      //
     } catch (e) {
       console.log(e);
     }
     navigate("/");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!fio) return;
     login(fio, role);
@@ -54,7 +55,7 @@ export const AuthForm = () => {
           <select
             value={role}
             onChange={(e) => {
-              setRole(e.target.value);
+              setRole(e.target.value as UserRole);
             }}
           >
             <option value={"user"}>Пользователь</option>

@@ -1,6 +1,19 @@
 import { createContext, useContext, useState } from "react";
 
-const AuthContext = createContext({ theme: "light" });
+type AuthContextValue = {
+  user: User | null;
+  isAuth: boolean;
+  isAdmin: boolean;
+  login: (fio: string, role: UserRole) => void;
+  logout: () => void;
+  switchRole: (role: UserRole) => void;
+};
+
+type AuthProviderProps = {
+  children: React.ReactNode;
+};
+
+const AuthContext = createContext<AuthContextValue | null>(null);
 
 export const useAuth = () => {
   const auth = useContext(AuthContext);
@@ -8,22 +21,22 @@ export const useAuth = () => {
   return auth;
 };
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
+  const [user, setUser] = useState<User | null>(() => {
     const userInLocalstorage = localStorage.getItem("user");
     if (userInLocalstorage) return JSON.parse(userInLocalstorage);
     return null;
   });
 
-  const login = (fio, role) => {
+  const login = (fio: string, role: UserRole) => {
     const newUser = { fio, role };
     setUser(newUser);
     localStorage.setItem("user", JSON.stringify(newUser));
   };
 
-  const switchRole = (role) => {
+  const switchRole = (role: UserRole) => {
     const newUser = { ...user, role };
-    setUser(newUser);
+    setUser(newUser as User);
     localStorage.setItem("user", JSON.stringify(newUser));
   };
 
@@ -33,7 +46,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const isAuth = !!user;
-  const isAdmin = user.role === "admin";
+  const isAdmin = user?.role === "admin";
 
   return (
     <AuthContext.Provider

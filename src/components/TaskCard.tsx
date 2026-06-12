@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 
-const TaskCard = ({ obj, onDelete, onChangeTask }) => {
-  const [editValue, setEditValue] = useState(obj.name);
-  const [editStatus, setEditStatus] = useState(obj.compliteStatus);
+type TaskCardProps = {
+  task: Task;
+  onDelete: Function;
+  onChangeTask: Function;
+};
+
+const TaskCard = ({ task, onDelete, onChangeTask }: TaskCardProps) => {
+  const [editValue, setEditValue] = useState(task.name);
+  const [editStatus, setEditStatus] = useState(task.compliteStatus);
   const [isEditing, setIsEditing] = useState(false);
 
   return (
@@ -19,11 +25,11 @@ const TaskCard = ({ obj, onDelete, onChangeTask }) => {
     >
       <input
         type="checkbox"
-        checked={isEditing ? editStatus : obj.compliteStatus}
+        checked={isEditing ? editStatus : task.compliteStatus}
         onChange={(e) => {
           isEditing
             ? setEditStatus(!editStatus)
-            : onChangeTask(obj.id, obj.name, !obj.compliteStatus);
+            : onChangeTask(task.id, task.name, !task.compliteStatus);
         }}
       />
       {isEditing ? (
@@ -45,7 +51,7 @@ const TaskCard = ({ obj, onDelete, onChangeTask }) => {
           />
           <button
             onClick={async () => {
-              await onChangeTask(obj.id, editValue, editStatus);
+              await onChangeTask(task.id, editValue, editStatus);
               setIsEditing(false);
             }}
           >
@@ -64,21 +70,21 @@ const TaskCard = ({ obj, onDelete, onChangeTask }) => {
         >
           <p
             style={{
-              textDecoration: obj.compliteStatus ? "line-through" : "none",
-              fontWeight: obj.compliteStatus ? 400 : 800,
+              textDecoration: task.compliteStatus ? "line-through" : "none",
+              fontWeight: task.compliteStatus ? 400 : 800,
               fontSize: 25,
               marginBlockEnd: 5,
               marginBlockStart: 5,
-              color: obj.compliteStatus ? "grey" : "black",
+              color: task.compliteStatus ? "grey" : "black",
               marginLeft: 5,
               marginRight: 20,
             }}
           >
-            {obj.name}
+            {task.name}
           </p>
           <div style={{ flexGrow: 1 }} />
           <button onClick={() => setIsEditing(true)}>Изменить</button>
-          <button onClick={() => onDelete(obj.id)}>Удалить</button>
+          <button onClick={() => onDelete(task.id)}>Удалить</button>
         </div>
       )}
     </div>

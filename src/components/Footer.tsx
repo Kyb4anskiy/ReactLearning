@@ -63,7 +63,7 @@ export const Footer = () => {
           <input
             checked={theme === "light"}
             type="radio"
-            onClick={switchTheme}
+            onChange={switchTheme}
           />
         </div>
       </div>

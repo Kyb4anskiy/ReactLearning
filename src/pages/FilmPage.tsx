@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 export const FilmScreen = () => {
   const { id } = useParams();
-  const [filmData, setFilmData] = useState();
+  const [filmData, setFilmData] = useState<Film>();
   const [isLoading, setIsLoading] = useState(true);
   const [ratingColor, setRatingColor] = useState("black");
   const [isEditing, setIsEditing] = useState(false);
@@ -107,7 +107,7 @@ export const FilmScreen = () => {
                     }}
                   >
                     <p style={{ fontSize: 28, fontWeight: 600 }}>
-                      {filmData.name}
+                      {filmData?.name}
                     </p>
                     <p
                       style={{
@@ -117,14 +117,14 @@ export const FilmScreen = () => {
                         fontWeight: 600,
                       }}
                     >
-                      {filmData.rating}/10
+                      {filmData?.rating}/10
                     </p>
                   </div>
                   <p style={{ fontSize: 20, marginTop: 16 }}>
-                    Возрастное ограничение: {filmData.ageLimit}
+                    Возрастное ограничение: {filmData?.ageLimit}
                   </p>
                   <p style={{ fontSize: 20, marginTop: 16 }}>
-                    Год выхода: {filmData.year}
+                    Год выхода: {filmData?.year}
                   </p>
 
                   <div style={{ marginTop: "auto" }}>
@@ -163,7 +163,7 @@ export const FilmScreen = () => {
                       value={newFilmName}
                       type="text"
                       style={{ fontSize: 28, fontWeight: 600, width: 550 }}
-                      placeholder={filmData.name}
+                      placeholder={filmData?.name}
                       onChange={(e) => {
                         setNewFilmName(e.target.value);
                       }}
@@ -171,7 +171,7 @@ export const FilmScreen = () => {
                     <input
                       value={newFilmRating}
                       type="text"
-                      placeholder={filmData.rating}
+                      placeholder={filmData?.rating.toString()}
                       onChange={(e) => {
                         setNewFilmRating(e.target.value);
                       }}
@@ -187,7 +187,7 @@ export const FilmScreen = () => {
                   <input
                     value={newFilmAgeLimit}
                     type="text"
-                    placeholder={filmData.ageLimit}
+                    placeholder={filmData?.ageLimit}
                     onChange={(e) => {
                       setNewFilmAgeLimit(e.target.value);
                     }}
@@ -196,7 +196,7 @@ export const FilmScreen = () => {
                   <input
                     value={newFilmYear}
                     type="text"
-                    placeholder={filmData.year}
+                    placeholder={filmData?.year.toString()}
                     onChange={(e) => {
                       setNewFilmYear(e.target.value);
                     }}

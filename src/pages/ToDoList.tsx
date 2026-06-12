@@ -3,7 +3,7 @@ import TaskCard from "../components/TaskCard";
 import { useSearchParams } from "react-router-dom";
 
 const ToDoList = () => {
-  const [currentTaskList, setCurrentTaskList] = useState([]);
+  const [currentTaskList, setCurrentTaskList] = useState<Task[]>([]);
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [limit, setLimit] = useState(3);
@@ -27,7 +27,7 @@ const ToDoList = () => {
 
   const lengthList = currentTaskList.length;
   const countComplite = currentTaskList.filter(
-    (obj) => obj.compliteStatus === true,
+    (obj: Task) => obj.compliteStatus === true,
   ).length;
   const allPages = () => {};
 
@@ -35,8 +35,8 @@ const ToDoList = () => {
     setIsLoading(true);
 
     const queryParams = new URLSearchParams();
-    if (page) queryParams.set("page", page);
-    if (limit) queryParams.set("limit", limit);
+    if (page) queryParams.set("page", page.toString());
+    if (limit) queryParams.set("limit", limit.toString());
 
     try {
       const response = await fetch(
@@ -83,7 +83,11 @@ const ToDoList = () => {
     setInputText("");
   };
 
-  const handleUpdateTask = async (id, name, compliteStatus) => {
+  const handleUpdateTask = async (
+    id: number,
+    name: string,
+    compliteStatus: boolean,
+  ) => {
     try {
       const response = await fetch(
         `https://e68a5f89ae16826a.mokky.dev/listTasks/${id}`,
@@ -101,7 +105,7 @@ const ToDoList = () => {
     } catch (e) {}
   };
 
-  const handleDeleteTask = async (id) => {
+  const handleDeleteTask = async (id: number) => {
     try {
       const response = await fetch(
         `https://e68a5f89ae16826a.mokky.dev/listTasks/${id}`,
@@ -135,7 +139,7 @@ const ToDoList = () => {
         {currentTaskList.map((obj) => (
           <TaskCard
             key={obj.id}
-            obj={obj}
+            task={obj}
             onDelete={handleDeleteTask}
             onChangeTask={handleUpdateTask}
           />
