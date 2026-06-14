@@ -1,16 +1,10 @@
-import { useContext, useEffect, useState } from "react";
-import { Header } from "../components/Header";
+import { useEffect, useState } from "react";
 import { FilmCard } from "../components/FilmCard";
-import { useTheme } from "../contexts/ThemeContext";
-import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export const HomePage = () => {
   const [filmsList, setFilmsList] = useState<Film[]>([]);
   const [filter, setFilter] = useState("");
-
-  const { theme } = useTheme();
-  const navigate = useNavigate();
 
   useEffect(() => {
     handleGetFilmsList();

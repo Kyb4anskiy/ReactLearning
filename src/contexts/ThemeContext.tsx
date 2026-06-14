@@ -22,10 +22,7 @@ export const useTheme = () => {
 export const ThemeProvider = ({ children }: ThemeProviderProps) => {
   const [theme, setTheme] = useState<Theme>("light");
 
-  const switchTheme = () => {
-    if (theme === "light") setTheme("dark");
-    else setTheme("light");
-  };
+  const switchTheme = () => {};
 
   return (
     <ThemeContext.Provider value={{ theme, switchTheme }}>

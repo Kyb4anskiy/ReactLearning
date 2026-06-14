@@ -1,17 +1,24 @@
-import { useState } from "react";
+import { ChangeEvent, SubmitEvent, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 export const AuthForm = () => {
-  const [fio, setFio] = useState("");
-  const [role, setRole] = useState<UserRole>("user");
+  const [userData, setUserData] = useState<{
+    login: string;
+    password: string;
+    role: UserRole;
+  }>({
+    login: "",
+    password: "",
+    role: "user",
+  });
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleLogIn = async () => {
     try {
       const response = await fetch(
-        `https://e68a5f89ae16826a.mokky.dev/userData?login=${fio}`,
+        `https://e68a5f89ae16826a.mokky.dev/userData?login=${userData.login}`,
       );
       if (!response.ok) throw new Error("Ошибка подключения");
       const data = await response.json();
@@ -22,11 +29,21 @@ export const AuthForm = () => {
     navigate("/");
   };
 
-  const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!fio) return;
-    login(fio, role);
+  const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!userData?.login) return;
+    if (!userData?.password) return;
+    login(userData.login, userData.role);
     navigate("/profile");
+  };
+
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    setUserData((prev) => ({
+      ...prev,
+      [event.target.name]: event.target.value,
+    }));
   };
 
   return (
@@ -47,17 +64,20 @@ export const AuthForm = () => {
         <form onSubmit={handleSubmit}>
           <h3>Вход</h3>
           <input
+            name="login"
             type="text"
-            value={fio}
-            placeholder="ФИО"
-            onChange={(e) => setFio(e.target.value)}
+            value={userData?.login}
+            placeholder="Логин"
+            onChange={handleChange}
           />
-          <select
-            value={role}
-            onChange={(e) => {
-              setRole(e.target.value as UserRole);
-            }}
-          >
+          <input
+            name="password"
+            type="password"
+            value={userData?.password}
+            placeholder="Пароль"
+            onChange={handleChange}
+          />
+          <select name="role" value={userData?.role} onChange={handleChange}>
             <option value={"user"}>Пользователь</option>
             <option value={"admin"}>Администратор</option>
           </select>

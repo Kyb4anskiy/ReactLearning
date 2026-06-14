@@ -1,3 +1,4 @@
+import { devNull } from "os";
 import { createContext, useContext, useState } from "react";
 
 type AuthContextValue = {
@@ -28,8 +29,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     return null;
   });
 
-  const login = (fio: string, role: UserRole) => {
-    const newUser = { fio, role };
+  const login = (login: string, role: UserRole) => {
+    const newUser = { id: 1, login, role, password: null };
     setUser(newUser);
     localStorage.setItem("user", JSON.stringify(newUser));
   };

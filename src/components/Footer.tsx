@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
-import { useTheme } from "../contexts/ThemeContext";
 import { useAuth } from "../contexts/AuthContext";
+import { useAppDispatch, useAppSelector } from "../store/store";
+import { switchTheme } from "../store/slices/ThemeSlice";
+import { ThemeSelector } from "../store/selectors/ThemeSelector";
 
 export const Footer = () => {
-  const { theme, switchTheme } = useTheme();
+  const theme = useAppSelector(ThemeSelector);
+  const dispatch = useAppDispatch();
   const { isAuth, isAdmin } = useAuth();
 
   return (
@@ -62,8 +65,8 @@ export const Footer = () => {
           <p>Используется {theme} тема</p>
           <input
             checked={theme === "light"}
-            type="radio"
-            onChange={switchTheme}
+            type="checkbox"
+            onChange={() => dispatch(switchTheme())}
           />
         </div>
       </div>

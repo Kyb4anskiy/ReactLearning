@@ -15,6 +15,8 @@ type Task = {
 type UserRole = "user" | "admin";
 
 type User = {
-  fio: string;
+  id: number;
+  login: string;
   role: UserRole;
+  password: string | null;
 };

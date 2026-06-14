@@ -29,7 +29,6 @@ const ToDoList = () => {
   const countComplite = currentTaskList.filter(
     (obj: Task) => obj.compliteStatus === true,
   ).length;
-  const allPages = () => {};
 
   const handleGetTask = async () => {
     setIsLoading(true);

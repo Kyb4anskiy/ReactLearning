@@ -38,7 +38,7 @@ export const ProfilePage = () => {
         }}
       >
         <h3>Профиль</h3>
-        <p>ФИО: {user?.fio}</p>
+        <p>ФИО: {user?.login}</p>
         <p>Роль: {user?.role}</p>
         <select
           value={user?.role}
