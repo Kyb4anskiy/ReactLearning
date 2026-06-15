@@ -1,10 +1,26 @@
 import { useEffect, useState } from "react";
 import { FilmCard } from "../components/FilmCard";
 import { useNavigate } from "react-router-dom";
+import {
+  useAddFilmMutation,
+  useGetFilmByIdQuery,
+  useGetFilmQuery,
+} from "../store/services/FilmApi";
 
 export const HomePage = () => {
   const [filmsList, setFilmsList] = useState<Film[]>([]);
   const [filter, setFilter] = useState("");
+
+  const {
+    data: films = [],
+    isLoading,
+    isError,
+    error,
+    isFetching,
+    isSuccess,
+  } = useGetFilmQuery();
+  //const { data: curFilms = [], isLoading, isError, error, isFetching, isSuccess} = useGetFilmByIdQuery(1);
+  const [addFilm] = useAddFilmMutation(); // возвращает функцию для пользования в компонентах -> addFilm({name: "string", rating: 2, ageLimit: "string", year: 2000});
 
   useEffect(() => {
     handleGetFilmsList();

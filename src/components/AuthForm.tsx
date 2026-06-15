@@ -1,6 +1,7 @@
 import { ChangeEvent, SubmitEvent, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { login } from "../store/slices/AuthSlice";
 
 export const AuthForm = () => {
   const [userData, setUserData] = useState<{
@@ -12,7 +13,7 @@ export const AuthForm = () => {
     password: "",
     role: "user",
   });
-  const { login } = useAuth();
+  //const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleLogIn = async () => {
@@ -29,11 +30,13 @@ export const AuthForm = () => {
     navigate("/");
   };
 
-  const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     if (!userData?.login) return;
     if (!userData?.password) return;
-    login(userData.login, userData.role);
+    await login(userData);
+    //login(userData.login, userData.role);
     navigate("/profile");
   };
 
